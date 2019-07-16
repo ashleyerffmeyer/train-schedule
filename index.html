@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>All Aboard App</title>
+
+    <!--Enabling Bootstrap Functionality-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <!--Enabling jQuery-->
+    <script src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+
+    <!--Enabling Firebase-->
+    <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-database.js"></script>
+
+    <!--My own css style sheet-->
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+    <div class=container>
+        <div class="jumbotron text-center col-md-12">
+            <h1 class="display-4">Train Arrival Times</h1>
+            <p class="lead">Choo Choo!</p>
+        </div>
+
+        <section id="train-schedule">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-default">
+                        <div class="card-header">
+                            Current Train Schedule
+                        </div>
+                        <div class="card-body">
+                            <table class="table">
+                                <th>
+                                <td>Train Name</td>
+                                <td>Destination</td>
+                                <td>Frequency (min)</td>
+                                <td>Next Arrival</td>
+                                <td>Minutes Away</td>
+                                </th>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <br>
+
+        <section id="add-train">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card card-default">
+                        <div class="card-header">
+                            Add Train
+                        </div>
+                        <div class="card-body">
+                            <form>
+                                <div class="form-group">
+                                    <label for="train-name">Train Name</label>
+                                    <input class="form-control" id="train-name" type="text">
+                                </div>
+                                <div class="form-group">
+                                    <label for="destination">Destination</label>
+                                    <input class="form-control" id="destination" type="text">
+                                </div>
+                                <div class="form-group">
+                                    <label for="train-time">First Train Time (HH:mm - military time)</label>
+                                    <input class="form-control" id="train-time" type="number">
+                                </div>
+                                <div class="form-group">
+                                    <label for="frequency">Frequency</label>
+                                    <input class="form-control" id="frequency" type="number">
+                                </div>
+                                <button class="btn btn-primary" id="submit-form" type="submit">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="assets/javascript/logic.js"></script>
+</body>
+
+</html>
