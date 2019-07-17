@@ -60,7 +60,11 @@ $("#submit-form").on("click", function (event) {
 
 // When a child is added, perform the following actions
 database.ref().on("child_added", function (snapshot) {
+
+    // Creates variable to see database values
     var sv = snapshot.val();
+
+    // Test
     console.log(snapshot);
     console.log(sv.trainName);
     console.log(sv.destination);
@@ -68,18 +72,18 @@ database.ref().on("child_added", function (snapshot) {
     console.log(sv.frequency);
 
     console.log(snapshot.key + " - train is " + snapshot.val().trainName);
+
+    // Calls createRow function
     createRow(snapshot.val());
 
 
+    // Function to print info if input is errorObject
 }, function (errorObject) {
     console.log('Errors Handled: ' + errorObject.code);
 });
 
+// Function to crate a new row of data in Current Train Schedule table
 function createRow(data) {
-    //var startDataFormat = "HH:mm";
-    //var convertedTime = moment(data.firstTrainTime, startDataFormat);
-    //console.log("First Train Time: " + convertedTime);
-
     // Assumptions
     //var tFrequency = 3;
 
@@ -108,7 +112,7 @@ function createRow(data) {
 
     // Next Train
     var nextArrival = moment().add(minutesAway, "minutes");
-    console.log("ARRIVAL TIME: " + moment(minutesAway).format("hh:mm"));
+    console.log("ARRIVAL TIME: " + moment(minutesAway).format("HH:mm"));
 
     // New variables to create and update table rows
     var tbl = $('.table');
