@@ -11,7 +11,7 @@ var config = {
 // Initialize Firebase
 firebase.initializeApp(config);
 
-///Here's a list of ID names in the HTML
+///Here's a list of ID names in the HTML:
 //"#train-name"
 //"#destination"
 //"#train-time"
@@ -40,7 +40,7 @@ $("#submit-form").on("click", function (event) {
     // Set variables to equal the input of the Add Train table
     trainName = $("#train-name").val().trim();
     destination = $("#destination").val().trim();
-    firstTrainTime = $("#train-time").val().trim();
+    firstTrainTime = moment($("#train-time").val().trim(), "HH:mm").format("HH:mm");
     frequency = parseFloat($("#frequency").val().trim());
 
     // Test
@@ -64,68 +64,57 @@ database.ref().on("child_added", function (snapshot) {
     // Creates variable to see database values
     var sv = snapshot.val();
 
+    // Updating variables
+    var trainName = sv.trainName;
+    var destination = sv.destination;
+    var firstTrainTime = sv.firstTrainTime;
+    var frequency = sv.frequency;
+
     // Test
     console.log(snapshot);
     console.log(sv.trainName);
     console.log(sv.destination);
     console.log(sv.firstTrainTime);
     console.log(sv.frequency);
-
-    console.log(snapshot.key + " - train is " + snapshot.val().trainName);
-
-    // Calls createRow function
-    createRow(snapshot.val());
-
-
-    // Function to print info if input is errorObject
-}, function (errorObject) {
-    console.log('Errors Handled: ' + errorObject.code);
-});
-
-// Function to crate a new row of data in Current Train Schedule table
-function createRow(data) {
-    // Assumptions
-    //var tFrequency = 3;
-
-    // Time is 3:30 AM
-    //var firstTime = "03:30";
+    console.log(snapshot.key + " - train is " + sv.trainName);
 
     // First Time (pushed back 1 year to make sure it comes before current time)
     var firstTimeConverted = moment(firstTrainTime, "HH:mm").subtract(1, "years");
-    console.log(firstTimeConverted);
-
-    // Current Time
-    var currentTime = moment();
-    console.log("CURRENT TIME: " + moment(currentTime).format("HH:mm"));
 
     // Difference between the times
     var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
-    console.log("DIFFERENCE IN TIME: " + diffTime);
 
     // Time apart (remainder)
     var tRemainder = diffTime % frequency;
-    console.log(tRemainder);
 
     // Minute Until Train
     var minutesAway = frequency - tRemainder;
-    console.log("MINUTES TILL TRAIN: " + minutesAway);
 
     // Next Train
-    var nextArrival = moment().add(minutesAway, "minutes");
+    var nextArrival = moment().add(minutesAway, "minutes").format("HH:mm");
+
+    // Test
+    console.log(firstTimeConverted);
+    console.log("DIFFERENCE IN TIME: " + diffTime);
+    console.log("TIME APART: " + tRemainder);
+    console.log("MINUTES TILL NEXT TRAIN: " + minutesAway);
     console.log("ARRIVAL TIME: " + moment(minutesAway).format("HH:mm"));
 
     // New variables to create and update table rows
     var tbl = $('.table');
-
     var row = $('<tr>');
 
     // Update Current Train Schedule row with data
-    row.append($('<td>').text(data.trainName));
-    row.append($('<td>').text(data.destination));
-    row.append($('<td>').text(data.frequency));
+    row.append($('<td>').text(trainName));
+    row.append($('<td>').text(destination));
+    row.append($('<td>').text(frequency));
     row.append($('<td>').text(nextArrival));
     row.append($('<td>').text(minutesAway));
 
     // Update Current Train Schedule table with data
     tbl.append(row);
-} 
+
+    // Function to print info if input is errorObject
+}, function (errorObject) {
+    console.log('Errors Handled: ' + errorObject.code);
+});
